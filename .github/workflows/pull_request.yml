@@ -1,0 +1,15 @@
+name: Pull Request Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pull Request Message
+        run: echo "A pull request is updated or opened"
