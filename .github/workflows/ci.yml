@@ -2,11 +2,10 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
+      - develop
 
 permissions:
   contents: read
@@ -28,7 +27,7 @@ jobs:
           node-version: 24
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
         env:
           HUSKY: 0
 
@@ -36,8 +35,8 @@ jobs:
         if: github.event_name == 'pull_request'
         run: npx --no -- commitlint --from="${{ github.event.pull_request.base.sha }}" --to="${{ github.event.pull_request.head.sha }}"
 
-      - name: Run lint if available
-        run: npm run lint --if-present
+      - name: Run lint
+        run: npm run lint
 
   build-and-test:
     name: build-and-test
@@ -53,7 +52,7 @@ jobs:
           node-version: 24
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
         env:
           HUSKY: 0
 
