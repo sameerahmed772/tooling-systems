@@ -1,16 +1,24 @@
 {
   "name": "tooling-systems",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "description": "A small Node.js CRUD API with MongoDB and staging, preprod, and prod configurations.",
+  "type": "module",
   "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
     "test": "node --test",
+    "lint": "node --check src/server.js && node --check src/app.js && node --check src/config/index.js && node --check src/config/environments/staging.js && node --check src/config/environments/preprod.js && node --check src/config/environments/prod.js && node --check src/models/Task.js && node --check src/services/task.service.js && node --check src/controllers/task.controller.js && node --check src/routes/task.routes.js && node --check src/middleware/error-handler.js && node --check src/utils/app-error.js && node --check src/utils/task-validation.js",
     "prepare": "husky"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "mongoose": "^8.18.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
