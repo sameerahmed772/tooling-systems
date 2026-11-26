@@ -14,7 +14,7 @@ jobs:
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v5
         with:
-          issue-number: 1
+          issue-number: ${{ github.event.issue.number }}
           body: |
             This is a multi-line test comment
             - With GitHub **Markdown** :sparkles:
@@ -27,4 +27,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create comment with API
-        run: echo "should comment with api"
+        run: |
+          gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2026-03-10" \
+          /repos/${OWNER}/${REPOSITORY}/issues/${ISSUE_NUMBER}/comments \
+          -f 'body=Me too'
+
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         OWNER: ${{ github.event.user.login }}
+         REPOSITORY: ${{ github.event.repository.name }}
+         ISSUE_NUMBER: github.event.issue.number
